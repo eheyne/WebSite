@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <div class="main">
+    <div class="header">
+      <div {{bind-attr class="banner"}}>&nbsp;</div>
+    </div>
+    <div class="mid">
+      <div class="mid-left">
+        {{partial menu}}
+      </div>
+      <div class="mid-right">
+        {{outlet}}
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="copyright">Copyright 2013</p>
+  </div>
+</div>

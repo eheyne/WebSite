@@ -1,0 +1,37 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+.bundle
+
+# compiled output
+/tmp
+
+# dependencies
+/node_modules
+/.sass-cache
+
+# misc
+/.sass-cache
+/connect.lock
+/libpeerconnection.log
+.ruby-gemset
+
+/vendor/jquery/
+/vendor/bundle
+
+**/.DS_Store
+
+.idea/
+
+# Ignore locally-installed rubygems (bundle install --path bundle)
+bundle/
+
+# Datatables has too much in it, exclude some
+vendor/datatables/examples
+vendor/datatables/media/images
+vendor/datatables/media/css
+vendor/datatables/media/unit_testing
+vendor/datatables/media/src
+
+screenshots
+*.swp
+*.swo

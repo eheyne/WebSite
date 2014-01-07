@@ -1,0 +1,26 @@
+{
+  "version": 3,
+  "file": "app.js",
+  "sources": [
+    "tmp/transpiled/app/adapters/application.js",
+    "tmp/transpiled/app/app.js",
+    "tmp/transpiled/app/controllers/application.js",
+    "tmp/transpiled/app/models/books.js",
+    "tmp/transpiled/app/models/course.js",
+    "tmp/transpiled/app/router.js",
+    "tmp/transpiled/app/routes/application.js",
+    "tmp/transpiled/app/store/store.js"
+  ],
+  "names": [],
+  "mappings": "AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;ACRA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;ACjBA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;ACpBA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;AClCA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;AC3BA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;ACbA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K;ACZA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,K",
+  "sourcesContent": [
+    "define(\"appkit/adapters/application\",\n  [],\n  function() {\n    \"use strict\";\n    var ApplicationAdapter = DS.FixtureAdapter.extend();\n\n\n    return ApplicationAdapter;\n  });",
+    "define(\"appkit/app\",\n  [\"resolver\",\"appkit/router\"],\n  function(Resolver, router) {\n    \"use strict\";\n\n    var App = Ember.Application.create({\n      LOG_ACTIVE_GENERATION: true,\n      LOG_VIEW_LOOKUPS: true,\n      modulePrefix: 'appkit',\n      Resolver: Resolver,\n      Router: Ember.Router.extend({\n        router: router\n      })\n    });\n\n\n    return App;\n  });",
+    "define(\"appkit/controllers/application\",\n  [],\n  function() {\n    \"use strict\";\n    var ApplicationController = Ember.ArrayController.extend({\n      banner: function() {\n       debugger;\n       if (this.get(\"currentPath\") === \"index\") {\n         return \"home-banner\";\n       } else {\n         var courseController = App.__container__.lookup(\"controller:\" + this.get(\"currentPath\"));\n         var url = courseController.get(\"target.location.lastSetURL\");\n         var banner = \"banner-\" + url.substr(url.indexOf(\"/\", 2) + 1, 1);\n         return banner;\n       }\n     }.property(\"currentPath\")\n    });\n\n\n    return ApplicationController;\n  });",
+    "define(\"appkit/models/books\",\n  [],\n  function() {\n    \"use strict\";\n    var book = DS.Model.extend({\n      course: DS.belongsTo('course'),\n      title: DS.attr(\"string\"),\n      author: DS.attr(\"string\"),\n      isbn: DS.attr(\"string\"),\n      srcUrl: DS.attr(\"string\"),\n      imageUrl: DS.attr(\"string\")\n    });\n\n    book.FIXTURES = [\n      {\n        id: 1,\n        title: \"Programming the World Wide Web (7th Edition)\",\n        author: \"Robert W. Sebesta\",\n        isbn: \"978-0-13-266581-0\",\n        srcUrl: \"http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=978-0-13-266581-0&rh=n%3A283155%2Ck%3A978-0-13-266581-0\",\n        imageUrl: \"http://ecx.images-amazon.com/images/I/51pQ5%2B56n1L._AA200_.jpg\"\n      },\n      {\n        id: 2,\n        title: \"Title 2\",\n        author: \"\",\n        isbn: \"\",\n        srcUrl: \"\",\n        imageUrl: \"\"\n      }\n    ];\n\n\n    return book;\n  });",
+    "define(\"appkit/models/course\",\n  [],\n  function() {\n    \"use strict\";\n    var course = DS.Model.extend({\n      sname: DS.attr(\"string\"),\n      lname: DS.attr(\"string\"),\n      books: DS.hasMany('books', {async:true})\n    });\n\n    course.FIXTURES = [\n      {\n        id: 1,\n        sname: \"ISP\",\n        lname: \"Internet Systems Programming\",\n        books: [1]\n      },\n      {\n        id: 2,\n        sname: \"WP\",\n        lname: \"Windows Programming\",\n        books: [2]\n      }\n    ];\n\n\n    return course;\n  });",
+    "define(\"appkit/router\",\n  [],\n  function() {\n    \"use strict\";\n    var router = Ember.Router.map(function(){\n      this.resource('course', { path: '/course/:course_id' }, function() {\n        this.route('book');\n        this.route('demos');\n      });\n    });\n\n\n    return router;\n  });",
+    "define(\"appkit/routes/application\",\n  [],\n  function() {\n    \"use strict\";\n    var ApplicationRoute = Ember.Route.extend({\n      model: function() {\n        return this.store.find('course');\n      }\n    });\n\n\n    return ApplicationRoute;\n  });",
+    "define(\"appkit/store/store\",\n  [],\n  function() {\n    \"use strict\";\n    var store = DS.Store.extend({\n      revision: 11,\n      adapter: 'DS.FixtureAdapter'\n    });\n\n\n    return store;\n  });"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ember-data",
+  "_cacheHeaders": {
+    "ETag": "\"cbe37b506c8b346786cd42b3e53b4366\"",
+    "Last-Modified": "Thu, 03 Oct 2013 01:50:24 GMT",
+    "Content-Length": "216348",
+    "Content-Type": "text/javascript"
+  },
+  "_release": "e-tag:cbe37b506",
+  "main": "index.js",
+  "_source": "http://builds.emberjs.com/canary/ember-data.js",
+  "_target": "*",
+  "_originalSource": "http://builds.emberjs.com/canary/ember-data.js"
+}

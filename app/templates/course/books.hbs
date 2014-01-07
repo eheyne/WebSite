@@ -1,0 +1,16 @@
+<ul class="list">
+  {{#each books}}
+  {{debugger}}
+    <div class="container mtl">
+      <a {{bind-attr href=srcUrl}} style="text-decoration: none;">
+        <img {{bind-attr src=imageUrl}} alt="Book Image" style="float:left;"/>
+        <h3>{{title}}</h3>
+        <span>by {{author}}</span><br/>
+        <span>ISBN: {{isbn}}</span><br/>
+      </a>
+    </div>
+    <div class="clear mtl">
+      <hr size="2" width="100%" align="center">
+    </div>
+  {{/each}}
+</ul>
