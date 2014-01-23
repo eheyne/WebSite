@@ -1,11 +1,13 @@
-<h2 class="gap-2">Menu</h2>
+<h2 class="hl gap-2">Menu</h2>
 <ul class="left-nav">
   {{#link-to 'index' tagName='li'}}
     <a {{bindAttr href="view.href"}}>Homepage</a>
   {{/link-to}}
   {{#each}}
-    {{#link-to 'course' this tagName='li'}}
-      <a {{bindAttr href="view.href"}}>{{lname}}</a>
+    <li>
+    {{#link-to 'course' this}}
+      {{lname}}
     {{/link-to}}
+    </li>
   {{/each}}
 </ul>

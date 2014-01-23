@@ -31,12 +31,11 @@ define("appkit/controllers/application",
     "use strict";
     var ApplicationController = Ember.ArrayController.extend({
       banner: function() {
-       debugger;
        if (this.get("currentPath") === "index") {
          return "home-banner";
        } else {
          var courseController = App.__container__.lookup("controller:" + this.get("currentPath"));
-         var url = courseController.get("target.location.lastSetURL");
+         var url = courseController.get("target.location.lastSetURL") || courseController.get("target.location").getURL();
          var banner = "banner-" + url.substr(url.indexOf("/", 2) + 1, 1);
          return banner;
        }
@@ -46,17 +45,39 @@ define("appkit/controllers/application",
 
     return ApplicationController;
   });
+define("appkit/models/assignments",
+  [],
+  function() {
+    "use strict";
+    var assignment = DS.Model.extend({
+      course: DS.belongsTo('course'),
+      name: DS.attr('string'),
+      url: DS.attr('string')
+    });
+
+    assignment.FIXTURES = [
+      {
+        id: 1,
+        name: "Assignment 1",
+        url: './assets/documents/WP Assignment 1.pdf'
+      }
+    ];
+
+
+
+    return assignment;
+  });
 define("appkit/models/books",
   [],
   function() {
     "use strict";
     var book = DS.Model.extend({
       course: DS.belongsTo('course'),
-      title: DS.attr("string"),
-      author: DS.attr("string"),
-      isbn: DS.attr("string"),
-      srcUrl: DS.attr("string"),
-      imageUrl: DS.attr("string")
+      title: DS.attr('string'),
+      author: DS.attr('string'),
+      isbn: DS.attr('string'),
+      srcUrl: DS.attr('string'),
+      imageUrl: DS.attr('string')
     });
 
     book.FIXTURES = [
@@ -70,11 +91,19 @@ define("appkit/models/books",
       },
       {
         id: 2,
-        title: "Title 2",
-        author: "",
-        isbn: "",
-        srcUrl: "",
-        imageUrl: ""
+        title: "Pro C# 5.0 and the .NET 4.5 Framework",
+        author: "Andrew Troelsen",
+        isbn: "978-1430242338",
+        srcUrl: "http://www.amazon.com/Pro-5-0-NET-4-5-Framework/dp/1430242337/ref=pd_bxgy_b_img_y",
+        imageUrl: "http://ecx.images-amazon.com/images/I/51PimrR2lzL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
+      },
+      {
+        id: 3,
+        title: "Pro ASP.NET MVC 4",
+        author: "Adam Freeman",
+        isbn: "978-1430242369",
+        srcUrl: "http://www.amazon.com/Pro-ASP-NET-MVC-Adam-Freeman/dp/1430242361/ref=pd_bxgy_b_img_y",
+        imageUrl: "http://ecx.images-amazon.com/images/I/51Rms2VIcWL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
       }
     ];
 
@@ -86,28 +115,151 @@ define("appkit/models/course",
   function() {
     "use strict";
     var course = DS.Model.extend({
-      sname: DS.attr("string"),
-      lname: DS.attr("string"),
-      books: DS.hasMany('books', {async:true})
+      sname: DS.attr('string'),
+      lname: DS.attr('string'),
+      number: DS.attr('string'),
+      description: DS.attr('string'),
+      syllabusUrl: DS.attr('string'),
+      books: DS.hasMany('books', {async:true}),
+      references: DS.hasMany('references', {async:true}),
+      assignments: DS.hasMany('assignments', {async:true}),
+      slides: DS.hasMany('slides', {async:true}),
+      folders: DS.hasMany('folders', {async:true})
     });
 
     course.FIXTURES = [
       {
         id: 1,
-        sname: "ISP",
-        lname: "Internet Systems Programming",
-        books: [1]
+        sname: 'ISP',
+        lname: 'Internet Systems Programming',
+        number: '3460:307',
+        description: 'This course is an introduction to Web-based programming. Topics include HTML, XHTML, XML, CSS, JavaScript, PHP, Servlet, JSP, ASP.NET, MySQL, Ruby, Ruby on Rails, and AJAX.  The students will learn the basic concepts of WWW client-server communications and the skill to use the above tools to create Web applications.',
+        syllabusUrl: "",
+        books: [1],
+        references: [],
+        assignments: [],
+        slides: [],
+        folders: []
       },
       {
         id: 2,
-        sname: "WP",
-        lname: "Windows Programming",
-        books: [2]
+        sname: 'WP',
+        lname: 'Windows Programming',
+        number: '3460:408/508',
+        description: 'This course will expose the students to the latest concepts and techniques in programming on the Windows platform. Will teach the students how to design and implement enterprise applications. Microsoft .Net and C# will be used as the tools to implement the programs.',
+        syllabusUrl: "./assets/documents/WP 408-508 Syllabus.pdf",
+        books: [2,3],
+        references: [],
+        assignments: [1],
+        slides: [1,2],
+        folders: []
       }
     ];
 
 
     return course;
+  });
+define("appkit/models/demos",
+  [],
+  function() {
+    "use strict";
+    var demo = DS.Model.extend({
+      demoFolder: DS.belongsTo('demoFolder'),
+      text: DS.attr('string'),
+      link: DS.attr('string'),
+      source: DS.attr('string')
+    });
+
+    demo.FIXTURES = [
+      {
+        id: 1,
+        text: 'audio',
+        link: 'audio.html',
+        source: ''
+      }
+    ];
+
+
+    return demo;
+  });
+define("appkit/models/folders",
+  [],
+  function() {
+    "use strict";
+    var folder = DS.Model.extend({
+      course: DS.belongsTo('course'),
+      title: DS.attr('string')
+      //link: DS.attr('string'),
+      //demos: DS.hasMany('demos', {async:true})
+    });
+
+    folder.FIXTURES = [
+      {
+        id: 1,
+        title: "Chapter 2"
+        //demos: [1]
+      },
+      {
+        id: 2,
+        title: "Chapter 3"
+        //demos: [1]
+      },
+      {
+        id: 3,
+        title: "Chapter 4"
+        //demos: [1]
+      }
+    ];
+
+
+    return folder;
+  });
+define("appkit/models/references",
+  [],
+  function() {
+    "use strict";
+    var reference = DS.Model.extend({
+      course: DS.belongsTo('course'),
+      name: DS.attr('string'),
+      url: DS.attr('string')
+    });
+
+    reference.FIXTURES = [
+      {
+        id: 1,
+        name: "",
+        url: ''
+      }
+    ];
+
+
+    return reference;
+  });
+define("appkit/models/slides",
+  [],
+  function() {
+    "use strict";
+    var slide = DS.Model.extend({
+      course: DS.belongsTo('course'),
+      name: DS.attr('string'),
+      url: DS.attr('string')
+    });
+
+    slide.FIXTURES = [
+      {
+        id: 1,
+        name: ".NET Platform Overview",
+        url: 'assets/slides/WP-NET Overview.pdf'
+      },
+      {
+        id: 2,
+        name: "Building C# Applications",
+        url: 'assets/slides/WP-Building CSharp Apps.pdf'
+      }
+    ];
+
+
+    return slide;
   });
 define("appkit/router",
   [],
@@ -115,8 +267,11 @@ define("appkit/router",
     "use strict";
     var router = Ember.Router.map(function(){
       this.resource('course', { path: '/course/:course_id' }, function() {
-        this.route('book');
+        this.route('books');
+        this.route('slides');
         this.route('demos');
+        this.route('assignments');
+        this.route('references');
       });
     });
 
@@ -135,6 +290,84 @@ define("appkit/routes/application",
 
 
     return ApplicationRoute;
+  });
+define("appkit/routes/course/assignments",
+  [],
+  function() {
+    "use strict";
+    var AssignmentsRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return AssignmentsRoute;
+  });
+define("appkit/routes/course/books",
+  [],
+  function() {
+    "use strict";
+    var BookRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return BookRoute;
+  });
+define("appkit/routes/course/demos",
+  [],
+  function() {
+    "use strict";
+    var DemosRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return DemosRoute;
+  });
+define("appkit/routes/course/index",
+  [],
+  function() {
+    "use strict";
+    var IndexRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return IndexRoute;
+  });
+define("appkit/routes/course/references",
+  [],
+  function() {
+    "use strict";
+    var ReferencesRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return ReferencesRoute;
+  });
+define("appkit/routes/course/slides",
+  [],
+  function() {
+    "use strict";
+    var SlidesRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        this.render({controller: 'course'});
+      }
+    });
+
+
+    return SlidesRoute;
   });
 define("appkit/store/store",
   [],
