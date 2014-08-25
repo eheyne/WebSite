@@ -6,8 +6,6 @@ var course = DS.Model.extend({
   syllabusUrl: DS.attr('string'),
   books: DS.hasMany('books', {async:true}),
   references: DS.hasMany('references', {async:true}),
-  assignments: DS.hasMany('assignments', {async:true}),
-  slides: DS.hasMany('slides', {async:true}),
   folders: DS.hasMany('folders', {async:true})
 });
 
@@ -21,8 +19,6 @@ course.FIXTURES = [
     syllabusUrl: "",
     books: [1],
     references: [],
-    assignments: [],
-    slides: [],
     folders: []
   },
   {
@@ -31,11 +27,9 @@ course.FIXTURES = [
     lname: 'Windows Programming',
     number: '3460:408/508',
     description: 'This course will expose the students to the latest concepts and techniques in programming on the Windows platform. Will teach the students how to design and implement enterprise applications. Microsoft .Net and C# will be used as the tools to implement the programs.',
-    syllabusUrl: "./assets/documents/WP 408-508 Syllabus.pdf",
+    syllabusUrl: "./assets/WP/WP 408-508 Syllabus.pdf",
     books: [2,3],
     references: [],
-    assignments: [1],
-    slides: [1,2],
     folders: []
   }
 ];

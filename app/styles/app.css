@@ -35,11 +35,11 @@ div [class*="banner"] {
 	height:200px;
 }
 
-.banner-1 {
+.banner-ISP {
 	background:url(images/webdev_logo.jpg) no-repeat left top;
 }
 
-.banner-2 {
+.banner-WP {
 	background:url(images/windows-banner.jpg) no-repeat left top;
 }
 

@@ -1,6 +1,11 @@
 var AssignmentsRoute = Ember.Route.extend({
-  renderTemplate: function() {
-    this.render({controller: 'course'});
+  model: function() {
+    var url = this.get("router.url");
+    var pathArray = url.split('/');
+    var course = pathArray[2];
+    return $.post("files.php?path=assets/" + course.trim() + "/assignments").then(function(response) {
+      return JSON.parse(response);
+    });
   }
 });
 

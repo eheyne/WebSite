@@ -5,7 +5,9 @@ var ApplicationController = Ember.ArrayController.extend({
    } else {
      var courseController = App.__container__.lookup("controller:" + this.get("currentPath"));
      var url = courseController.get("target.location.lastSetURL") || courseController.get("target.location").getURL();
-     var banner = "banner-" + url.substr(url.indexOf("/", 2) + 1, 1);
+     var pathArray = url.split('/');
+     var banner = "banner-" + pathArray[2];
+     console.log("banner is ", banner);
      return banner;
    }
  }.property("currentPath")

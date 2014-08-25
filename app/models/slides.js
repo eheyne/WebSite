@@ -14,6 +14,11 @@ slide.FIXTURES = [
     id: 2,
     name: "Building C# Applications",
     url: 'assets/slides/WP-Building CSharp Apps.pdf'
+  },
+  {
+    id: 3,
+    name: "Core C# Part I",
+    url: 'assets/slides/WP-Core CSharp.pdf'
   }
 ];
 

@@ -43,7 +43,7 @@ module.exports = {
       expand: true,
       cwd: 'tmp/public',
       src: ['**', '!coverage'],
-      dest: 'dist/'
+      dest: '/Users/eheyne/Sites/'
     }]
   },
 };
